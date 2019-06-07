@@ -10,7 +10,6 @@ SmartFactroy-Sortic Reposiroty provides an overview of the SmartFactroy project 
 
 [TOC]
 
-
 # Usecase Sortic
 
 At the [HSR](<https://www.hsr.ch/en>), a virtual world will be set up within the context of the [DigitalLab@HSR](<http://digitallabathsr.ch/>) in order to discuss various concepts in the field of digitization (Industry 4.0, Industry 2025) and Closed Loop Product Lifecycle Management. 
@@ -38,16 +37,17 @@ This is a mechatronic product with the following features:
 * The machine can recognize parts and transports them to different locations depending on their property/ID.
 * It is a modular product, which is distributed/produced according to an "Assemble to Order" strategy.  
 * It is self-configurable: components have an RFID chip, reader and software.
- The components recognize which configuration is present and adapt themselves.
-
-- It is IoT capable: It has an integrated web server for communication with the Internet.
+ The components recognize which configuration is present and adapt themselves.  
+* It is IoT capable: It has an integrated web server for communication with the Internet.
 
 [todo add images]
 [Source: SmartFactory ,Translated with [DeepL](www.DeepL.com/Translator)]
 
 ## Package distribution system
 
-The sortic plant has been extended by one new stage. It now has an autonomous package distribution system which takes over the further processing of the packages from the sorting plant to the transfer station.
+The Sortic plant has been extended by one new stage. It now has an autonomous package distribution system which takes over the further processing of the packages from the Sortic plant to the transfer station.
+
+<img src="./docs/images/Gametable.png" height="350"/>
 
 This happens as follows: the sorting system fills smart boxes. They recognize their fill level and communicate it with smart vehicles which bring the boxes to their target location. 
 
@@ -56,7 +56,40 @@ How this system was developed will be discussed in more detail.
 
 ### Functional structure diagram  (FSD)
 
-[todo add image]
+In order to identify the required functions the main function is divided into sub-functions up to atomic functions.
+
+<img src="./docs/images/FSD.png" height="500"/>
+
+As you can see in the functional structure the main function divides in two subfunction; *Store package* and *transport package*. 
+
+#### Store package
+
+The *Store package*-function was realized as a box. This box can fix the package and recognize when it is filled.  
+This is evaluated with the function *Control and Communicate* and communicated to the environment.
+
+<img src="./docs/images/SmartBox.jpeg" height="450"/>
+
+While the functions *fix package* and *detect fill-level* are application independent, the control and communicate block is specific to the Sortic application and determines the communication, like handshakes, with the vehicle and the surrounding area.
+
+A possible implementation of the Box can be found in [SmartFactory_Box-Sortic](https://github.com/LMazzole/SmartFactory_Box-Sortic)  
+
+#### Transport package
+
+The *Transport package*-function was realized with a vehicle. The vehicle recognizes its surroundings, can follow lines, raise and lower the box and communicate with the box and its environment.
+
+<img src="./docs/images/HardwareSV.png" height="300"/>
+
+
+
+[SmartFactory_Vehicle-Sortic](https://github.com/LMazzole/SmartFactory_Vehicle-Sortic) 
+
+[SmartFactory_Vehicle-Basis](https://github.com/LMazzole/SmartFactory_Vehicle-Basis)
+
+
+
+#### Communicate
+
+The Communicate-Function which is used by Store and Transport package is implemented as the SmartFactory_MQTTCommunication](https://github.com/LMazzole/SmartFactory_MQTTCommunication).  
 
 ## Setup
 
@@ -67,6 +100,8 @@ How this system was developed will be discussed in more detail.
 #### Mosquitto
 
 ## Communication
+
+<img src="./docs/images/MQTTTopics.png" height="600"/>
 
 ## GUI
 
