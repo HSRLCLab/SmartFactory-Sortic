@@ -180,7 +180,23 @@ Afterwards it listens for a short time to see if it is the only vehicle with thi
 
 ## GUI
 
-dasrtellung daten ndoe red gui 
+The communication and status of the vehicles and boxes is displayed in a GUI. 
+
+Here the user has the possibility to control the vehicles and boxes under the tab *Control*. He can send the commands *Error, Reset* and *Resume* to the subscribers and thus influence their process.
+
+ The tab *Status* shows the current status of the active vehicles and boxes.
+
+Under *Sortic* and *Transfer* there is the possibility to select the cargo as well as to block the corresponding Gateway. Furthermore the current occupation of the line is shown.
+
+
+
+<p align="center"> <img src="./docs/images/Gui.png" height="300"/> </p>  
+
+
+
+[Created with help from @jufritsche ]
+
+- [ ] addd possibility to send error reset and resume to every box and vehicle individulally
 
 ## Setup
 
