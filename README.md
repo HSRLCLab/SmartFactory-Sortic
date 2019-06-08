@@ -173,10 +173,11 @@ Low line numbers are are prioritized due to the shorter travel distances of Sort
 
 Afterwards it listens for a short time to see if it is the only vehicle with this destination. If so, it drives off, if not, the process starts again.
 
-### Improvements
+### TODO's
 
 - [ ] Use a separate topic for each line in Gateway. This minimizes the number of messages to be evaluated and allows an easy upscaling of the plant with multiple lines.
 - [ ] Better balance the message-payload between SmartVehicle and SmartBox to relieve the traffic on the SmartVehicle.
+- [ ] Minimize the communication overhead and optimize the run time. Retain message may be a solution.
 
 ## GUI
 
@@ -194,19 +195,12 @@ Under *Sortic* and *Transfer* there is the possibility to select the cargo as we
 
 
 
-[Created with help from @jufritsche ]
+[Created with help from [jufritsche](<https://github.com/jufritsche>) ]
 
-- [ ] addd possibility to send error reset and resume to every box and vehicle individulally
 
-## Setup
-
-### Raspberry Pi
-
-#### Mosquitto
-
-#### Node-Red
-
- 
+### TODO's
+- [ ] add possibility to send error, reset and resume to every box and vehicle individually
+- [ ] improve the GUI so that it does not need a known vehicle or box name and thus becomes scalable.
 
 # The SmartFactory Project
 
@@ -227,6 +221,105 @@ There are still some things left to do and to optimize:
 
 - [ ] Add an general communication class which allows you to chose a protocol.
 - [ ] Add an basic class for the smart box.
+
+
+
+## Setup
+
+To display the GUI you need a Node-Red-Server. The MQTT-Broker also needs a server. For this purpose a Raspberry Pi is used.
+
+### Raspberry Pi
+
+[Raspberry Pi 3 Model B+ with 7" Touch Screen](<https://www.digitec.ch/de/s1/product/raspberry-pi-touch-kit-armv8-entwicklungsboard-kit-9121186>) needs some additional settings to function smoothly:
+
+It is possible that the LCD is 180 degrees upside down. In this case it is necessary to extend the config file with the following lines:
+
+> lcd_rotate = 2
+
+How to edit the config is documented in the [Embedded Linux: R-Pi configuration file](<https://elinux.org/R-Pi_configuration_file>)-page.
+
+An other problem can be that the pop-up windows are too large. In this case you can add:
+
+>framebuffer_width=1200
+>
+>framebuffer_heigth=720
+
+It's also very convenient to operate the raspberry via the Computer. [You can use ssh to do this](<https://www.raspberrypi.org/documentation/remote-access/ssh/windows.md>).
+
+If you need more information here's an [Introduction to the Raspberry Pi](<https://randomnerdtutorials.com/getting-started-with-raspberry-pi/>).
+
+#### MQTT - Mosquitto
+
+For the communication via MQTT to work you need a broker. Here [Eclipse Mosquitto](<https://mosquitto.org/>) is used.
+
+To install Mosquitto on the Raspberry Pi you can use [these commands](:
+
+```shell
+pi@raspberry:~ $ sudo apt update
+pi@raspberry:~ $ sudo apt install -y mosquitto mosquitto-clients
+```
+
+You’ll have to type **Y** and press **Enter** to confirm the installation. To make Mosquitto auto start on boot up enter:
+
+```shell
+pi@raspberry:~ $ sudo systemctl enable mosquitto.service
+```
+
+To test the installation send the command:
+
+```shell
+pi@raspberry:~ $ mosquitto -v
+```
+
+This returns the Mosquitto version that is currently running in your Raspberry Pi. It should be 1.4.X or above.
+
+To use Mosquitto broker later on your projects, you’ll need your Raspberry Pi IP address. To retrieve your Raspberry Pi IP address, type the next command in your Terminal window:
+
+```shell
+pi@raspberry:~ $ hostname -I
+```
+
+[Source: [How to Install Mosquitto Broker on Raspberry Pi](<https://randomnerdtutorials.com/how-to-install-mosquitto-broker-on-raspberry-pi/>)]
+
+#### Node-RED
+
+ To install [Node-RED](<https://nodered.org/>) on the Raspbrery Pi you need to enter the following commands:
+
+```shell
+pi@raspberry:~ $ sudo apt-get update
+pi@raspberry:~ $ sudo apt-get upgrade
+pi@raspberry:~ $ sudo install nodejs npn
+pi@raspberry:~ $ sudo apt-get install xterm
+```
+
+If you want Node-RED to run when the Pi boots up you can use
+
+```shell
+pi@raspberry:~ $ sudo systemctl enable nodered.service
+```
+
+To start and stop Node-RED you can use
+
+```shell
+pi@raspberry:~ $ node-red-start
+pi@raspberry:~ $ node-red-stop
+```
+
+Once Node-RED is [running](https://nodered.org/docs/getting-started/running), point a local browser at http://localhost:1880. You can always use a browser from another machine if you know the ip address or name of the Node-RED instance - http://{Node-RED-machine-ip-address}:1880
+
+More Info on how to create a flow can be found in the [Node-RED-Documentation](<https://nodered.org/docs/getting-started/first-flow>).
+
+[Source: [Respberry Toolkit](<https://www.npmjs.com/package/raspberry>),[Node-Red Running on Raspberry Pi](<https://nodered.org/docs/hardware/raspberrypi>)]
+
+#### Node-Red Dashboard
+
+To install the stable version use the `Menu - Manage palette` option on the top right side on the node-red site and search for `node-red-dashboard`, or run the following command in your Node-RED user directory (typically `~/.node-red`):
+
+```shell
+pi@raspberry:~ $ npm i node-red-dashboard
+```
+
+[Source: [node-red-dashboard](<https://flows.nodered.org/node/node-red-dashboard>)]
 
 # Contributors
 
