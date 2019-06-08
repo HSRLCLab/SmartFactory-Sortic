@@ -25,7 +25,12 @@ These are sold according to the business model "machine as a service". The custo
 
 The second company - DropKick - is a user of the Sortic system and uses it to complete its business model. The company DropKick is a delivery service startup, which is strongly digitalized. 
 
+<img src="./docs/images/plm.png" height="350"/>  
+
 The interaction of the two companies is the basis to explain and explore a digital ecosystem and closed-loop PLM.
+
+
+
 [Source: SmartFactory ,Translated with [DeepL](www.DeepL.com/Translator)]
 
 ## Sorting-system
@@ -56,7 +61,7 @@ How this system was developed will be discussed in more detail.
 
 ### Functional structure diagram  (FSD)
 
-In order to identify the required functions the main function is divided into sub-functions up to atomic functions.
+In order to identify the required functions the main function *handle package* is divided into sub-functions up to atomic functions.
 
 <img src="./docs/images/FSD.png" height="500"/>
 
@@ -64,32 +69,38 @@ As you can see in the functional structure the main function divides in two subf
 
 #### Store package
 
-The *Store package*-function was realized as a box. This box can fix the package and recognize when it is filled.  
+The *Store package*-function was realized as a smartbox. This box can fix the package and recognize when it is filled.  
 This is evaluated with the function *Control and Communicate* and communicated to the environment.
 
 <img src="./docs/images/SmartBox.jpeg" height="450"/>
 
 While the functions *fix package* and *detect fill-level* are application independent, the control and communicate block is specific to the Sortic application and determines the communication, like handshakes, with the vehicle and the surrounding area.
 
+The structure of the FSD can also be seen in the collaboration diagram of the source-code.
+
+<img src="./docs/images/class_box_ctrl__coll__graph.png" height="250"/>
+
 A possible implementation of the Box can be found in [SmartFactory_Box-Sortic](https://github.com/LMazzole/SmartFactory_Box-Sortic)  
 
 #### Transport package
 
-The *Transport package*-function was realized with a vehicle. The vehicle recognizes its surroundings, can follow lines, raise and lower the box and communicate with the box and its environment.
+The *Transport package*-function was realized with a smartvehicle. The vehicle recognizes its surroundings, can follow lines, raise and lower the box and communicate with the box and its environment.
 
 <img src="./docs/images/HardwareSV.png" height="300"/>
 
+The main tasks of the vehicle are picking up and putting down the box and navigating on the game table while communicating with the environment. Navigation requires a drive and recognition of the surroundings. 
 
+While the functions *detect environment* and *drive* are application independent, the control and communicate block is specific to the Sortic application and determines the communication, like handshakes, with the box and the surrounding area. The *navigation*-function is also specifically adapted to Sortic and the corresponding Gametable.
 
-[SmartFactory_Vehicle-Sortic](https://github.com/LMazzole/SmartFactory_Vehicle-Sortic) 
+The structure of the FSD can also be seen in the collaboration diagram of the source-code.
 
-[SmartFactory_Vehicle-Basis](https://github.com/LMazzole/SmartFactory_Vehicle-Basis)
+<img src="./docs/images/class_vehicle_ctrl__coll__graph.png" height="400"/>
 
-
+A possible implementation of the Sortic dependent function can be found in [SmartFactory_Vehicle-Sortic](https://github.com/LMazzole/SmartFactory_Vehicle-Sortic) while the Sortic independent functions are in [SmartFactory_Vehicle-Basis](https://github.com/LMazzole/SmartFactory_Vehicle-Basis).
 
 #### Communicate
 
-The Communicate-Function which is used by Store and Transport package is implemented as the SmartFactory_MQTTCommunication](https://github.com/LMazzole/SmartFactory_MQTTCommunication).  
+The Communicate-Function which is used by Store and Transport package is implemented as the [SmartFactory_MQTTCommunication](https://github.com/LMazzole/SmartFactory_MQTTCommunication).  
 
 ## Setup
 
