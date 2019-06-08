@@ -115,13 +115,15 @@ In the Sortic scenario there are four different communication partners: Sortic, 
 
 The following scalable Topic-Tree is used for the communication:
 
-<p align="center"> <img src="./docs/images/MQTTTopics.png" height="600"/> </p>
+<p align="center"> <img src="./docs/images/MQTTTopics.png" height="700"/> </p>
 
 
 
 Each SmartBox and SmartVehicle continuously publishes its current position and its desired target position. This way, the vehicles can reserve their target position and conflicts with double occupancy are avoided.
 
 The SmartBox and the SmartVehicle are each only registered in their currently relevant topics depending on their position and state.
+
+### Loading and Unloading 
 
 The sequence diagram below shows a simplified communication process of the participants for a loading process:
 
@@ -139,17 +141,19 @@ If the SmartBox is in the right state, it listens to *Sortic/Handover*. If a Mes
 
 ### SmartBox - SmartVehicle
 
-#### Handshake
-
 A 4-way handshake is used for a proper connection between the SmartVehicle and SmartBox.
-
-<p align="center"> <img src="./mermaid/Handshake-detailed.svg" height="550"/> </p>
 
 If a participant does not respond within a certain period of time the handshake will be aborted.
 
+<p align="center"> <img src="./mermaid/Handshake-detailed.svg" height="700"/> </p>
+
+
+
 ### SmartVehicle - SmartVehicle
 
-There is no direct communication between the vehicles. Communication is rather based on the absence of messages.
+There is no direct communication between the vehicles. Communication is rather based on the absence of messages. For example:
+
+A SmartVehicle that enters the Gateway will constantly publish to *Sortic/Gateway* or *Transfer/Gateway* and thus block it. New arriving vehicles will listen if the gateway is free. If so, they will try to block the Gateway themselves and listen for a short time to if it is the only one publishing. If so, it will enter the Gateway if not it waits a random time (somewhat based on [Aloha](<https://en.wikipedia.org/wiki/ALOHAnet#Slotted_ALOHA>)) and tries to block the Gateway again until it succeeds.
 
 ### SmartVehicle - Transfer
 
@@ -157,13 +161,17 @@ There is no direct communication between the vehicles. Communication is rather b
 
 Transfer continuously publishes which cargo it needs at which handover point. 
 
-If the SmartVehicle is in the right state, it listens to *Transfer/Handover* and compares the received messages  with its load. At the same time it also listens to which lines are already occupied. If the SmartVehicle finds a free line that matches its cargo, it reserves it. Then it listens for a short time to see if it is the only vehicle with this destination. If so, it drives off, if not, the process starts again.
+If the SmartVehicle is in the right state, it listens to *Transfer/Handover* and compares the received messages  with its load. At the same time it also listens to which lines are already occupied. Low line numbers are are prioritized. If the SmartVehicle finds a free line that matches its cargo, it reserves it. Then it listens for a short time to see if it is the only vehicle with this destination. If so, it drives off, if not, the process starts again.
 
 <p align="center"> <img src="./mermaid/TransferToSV-detailed.svg" height="600"/> </p>
 
 ### SmartVehicle - Sortic
 
-Line 1 bevorzugt wegen kurzen verfahrwegen
+If the SmartVehicle is in the right state, it listens to *Sortic/Handover* it listens if there are free lines at Sortic.
+
+Low line numbers are are prioritized due to the shorter travel distances of Sortic.
+
+Afterwards it listens for a short time to see if it is the only vehicle with this destination. If so, it drives off, if not, the process starts again.
 
 ### Improvements
 
@@ -171,6 +179,8 @@ Line 1 bevorzugt wegen kurzen verfahrwegen
 - [ ] Better balance the message-payload between SmartVehicle and SmartBox to relieve the traffic on the SmartVehicle.
 
 ## GUI
+
+dasrtellung daten ndoe red gui 
 
 ## Setup
 
