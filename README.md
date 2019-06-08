@@ -111,39 +111,64 @@ You'll need a WLAN-Connection and a MQTT-Broker. How to set this up is explained
 
 ## Communication via MQTT
 
-In the Sortic scenario there are 4 different communication partners: Sortic, SmartBox, SmartVehicle and Transfer.
+In the Sortic scenario there are four different communication partners: Sortic, SmartBox, SmartVehicle and Transfer.
 
 The following scalable Topic-Tree is used for the communication:
 
 <p align="center"> <img src="./docs/images/MQTTTopics.png" height="600"/> </p>
 
-Alg. load unload sequence
 
-<p align="center"> <img src="./mermaid/LoadUnload-pseudo.svg" height="900"/> </p>
+
+Each SmartBox and SmartVehicle continuously publishes its current position and its desired target position. This way, the vehicles can reserve their target position and conflicts with double occupancy are avoided.
+
+The SmartBox and the SmartVehicle are each only registered in their currently relevant topics depending on their position and state.
+
+The sequence diagram below shows a simplified communication process of the participants for a loading process:
+
+<p align="center"> <img src="./mermaid/LoadUnload-pseudo.svg" width="850"/> </p>
 
 
 
 ### Sortic - SmartBox
 
+**Sortic tells which cargo it drops on which line.**
+
+If the SmartBox is in the right state, it listens to *Sortic/Handover*. If a Message with the same line as the SmartBox and Cargo-Information is received, the SmartBox updates its cargo.
+
 <p align="center"> <img src="./mermaid/SorticToSB-detailed.svg" height="400"/> </p>
 
 ### SmartBox - SmartVehicle
 
-Handshake
+#### Handshake
 
-<p align="center"> <img src="./mermaid/Handshake-detailed.svg" height="500"/> </p>
+A 4-way handshake is used for a proper connection between the SmartVehicle and SmartBox.
 
-A more detailed 
+<p align="center"> <img src="./mermaid/Handshake-detailed.svg" height="550"/> </p>
+
+If a participant does not respond within a certain period of time the handshake will be aborted.
+
+### SmartVehicle - SmartVehicle
+
+There is no direct communication between the vehicles. Communication is rather based on the absence of messages.
 
 ### SmartVehicle - Transfer
 
-add simple
+**Transfer tells which load it needs on which line**.
+
+Transfer continuously publishes which cargo it needs at which handover point. 
+
+If the SmartVehicle is in the right state, it listens to *Transfer/Handover* and compares the received messages  with its load. At the same time it also listens to which lines are already occupied. If the SmartVehicle finds a free line that matches its cargo, it reserves it. Then it listens for a short time to see if it is the only vehicle with this destination. If so, it drives off, if not, the process starts again.
 
 <p align="center"> <img src="./mermaid/TransferToSV-detailed.svg" height="600"/> </p>
 
+### SmartVehicle - Sortic
+
+Line 1 bevorzugt wegen kurzen verfahrwegen
+
 ### Improvements
 
-- [ ] Use a separate topic for each line in Gateway
+- [ ] Use a separate topic for each line in Gateway. This minimizes the number of messages to be evaluated and allows an easy upscaling of the plant with multiple lines.
+- [ ] Better balance the message-payload between SmartVehicle and SmartBox to relieve the traffic on the SmartVehicle.
 
 ## GUI
 

@@ -75,12 +75,16 @@ Note over SB1: Wait for Req. <br/> Timeout possible
 	SV1 -->> SV1HS: request SB1
 	SV1HS -->> SB1 : request SB1
 Note over SV1: Wait for Ack. <br/> Timeout possible
+
 	SB1 -->> SB1HS: acknoledge SV1, position, cargo
 	SB1HS -->> SV1: acknoledge SV1, position, cargo
+
 	
+loop send 5 times
 	SV1 -->> SV1HS: acknoledge SB1
 Note over SB1: Wait for Ack. <br/> Timeout possible
 	SV1HS -->> SB1: acknoledge SB1
+end
 	deactivate SV1HS
 	deactivate SB1HS
 	
@@ -200,53 +204,72 @@ Image:
 
 Code:  
 ``` mermaid
-	sequenceDiagram
+sequenceDiagram
 participant SB as SmartBox
-    participant SV as SmartVehicle
-    participant Sortic
-    participant Gateway
+participant SV as SmartVehicle
+participant Sortic
+participant Gateway
 participant Transfer
     
 
-    Note left of SB : Comm-Sequence <br/> Load/Unload
+Note left of SB : Comm-Sequence <br/> Load/Unload
 activate Sortic
-SV -> SV: in Position
+Note over SV : In Position Sortic <br/>  Line 1 <br/>  available
+
 activate SV
-SB -> SB: loaded
+Note over SB :  In Position Sortic <br/>  Line 3 <br/> Loaded <br/>  Wait for Cargo-Info
 activate SB
 Sortic -->> SB: Your cargo are apples
+Note over SB : Wait for Vehicle
 SB -->> SV: I need a Vehcile
 SV -->> SB: I'm availabel
-SB -->> SV: I'm in Sortic and have apples
-activate Gateway
+Note over SB : Choose Vehicle<br/>Handshake
+SB -->> SV: I'm in Sortic 3 and have apples
+deactivate SB 
+
+Note over SV :  Sortic Gateway<br/> Listen if blocked
 SV -->> Gateway: Are you free?
 Gateway -->> SV: Yes
-SV -> SV: Drive to SB and load it
+activate Gateway
+Note over SV :  Block Gateway
 deactivate Gateway
+
+Note over SV :  Drive to SB <br/> load SB
 SV -->> Transfer: Where do you need apples?
 Transfer -->> SV: Line 2
+Note over SV : Listen if Line 2 is blocked
  SV -->> Transfer: Is Line 2 free?
 Transfer -->> SV: Yes
 activate Transfer
+
+Note over SV : Block Line 2 in Transfer
 activate Gateway
-SV -> SV: Block Line 2 in Transfer
+Note over SV : Sortic Gateway<br/> Listen if blocked
 SV -->> Gateway: Are you free?
 Gateway -->> SV: No
-SV -> SV: Wait for some time
+Note over SV :  Wait some rand. time <br/> then check again
 deactivate Gateway
 SV -->> Gateway: Are you free?
 Gateway -->> SV: Yes
 activate Gateway
-SV -> SV: Drive to Transfer
-deactivate Sortic
+Note over SV :   Block Gateway <br/> Drive to Transfer
 deactivate Gateway
-SV -> SV: Unload Box
-SV -->> SB: You're at Transfer
-deactivate SV
-SV -> SV: Wait for Request
-deactivate SB
+deactivate Sortic
 
-SB -> SB: Wait for Unload
+Note over SV :  Transfer Gateway<br/> Listen if blocked
+SV -->> Gateway: Are you free?
+Gateway -->> SV: Yes
+activate Gateway
+Note over SV :  Block Gateway
+deactivate Gateway
+
+SV -->> SB: You're at Transfer Line 2
+Note over SV :  Unload Box
+deactivate SV
+Note over SV :  In Position Transfer<br/>  Line 2 <br/> available
+
+Note over SB :  Wait for Unload Cargo
+Note over SB : Wait for Vehicle
  deactivate Transfer
 
 
