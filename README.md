@@ -45,7 +45,7 @@ This is a mechatronic product with the following features:
  The components recognize which configuration is present and adapt themselves.  
 * It is IoT capable: It has an integrated web server for communication with the Internet.
 
-**[todo add images]**
+**[todo add picture of sortic, vehicle and box]**
 
 [Source: SmartFactory ,Translated with [DeepL](www.DeepL.com/Translator)]
 
@@ -229,6 +229,8 @@ The SmartFactroy-Project provides an interface for a  SmartVehicle, a SmartBox a
 - Vehicle - [SmartFactory_Vehicle-Basis](https://github.com/LMazzole/SmartFactory_Vehicle-Basis)  
 - Communication - [SmartFactory_MQTTCommunication](https://github.com/LMazzole/SmartFactory_MQTTCommunication)
 - (Box -  [SmartFactory_Box-Sortic](https://github.com/LMazzole/SmartFactory_Box-Sortic) )  
+
+If you would like to use one of these moudles, all you need to do is adding the GitHub-Link from the Repository of your choice under *lib_deps* in your platformio.ini File and you're set. All dependencies are downloaded automatically.
 
 ## Outlook
 
