@@ -10,6 +10,9 @@ SmartFactroy-Sortic Reposiroty provides an overview of the SmartFactroy project 
 
 [TOC]
 
+
+<div style="page-break-after: always;"></div>
+
 # Usecase Sortic
 
 At the [HSR](<https://www.hsr.ch/en>), a virtual world will be set up within the context of the [DigitalLab@HSR](<http://digitallabathsr.ch/>) in order to discuss various concepts in the field of digitization (Industry 4.0, Industry 2025) and Closed Loop Product Lifecycle Management. 
@@ -32,6 +35,8 @@ The interaction of the two companies is the basis to explain and explore a digit
 
 
 [Source: SmartFactory ,Translated with [DeepL](www.DeepL.com/Translator)]
+
+<div style="page-break-after: always;"></div>
 
 ## Sorting-system
 
@@ -60,6 +65,8 @@ This happens as follows: the sorting system fills smart boxes (left side). They 
 By using a modular approach, the package distribution system is easily scalable and very flexible.  
 How this system was developed will be discussed in more detail.
 
+<div style="page-break-after: always;"></div>
+
 ### Functional structure diagram  (FSD)
 
 In order to identify the required functions the main function *handle package* is divided into sub-functions up to atomic functions.
@@ -68,12 +75,14 @@ In order to identify the required functions the main function *handle package* i
 
 As you can see in the functional structure the main function divides in two subfunction; *Store package* and *transport package*. 
 
+<div style="page-break-after: always;"></div>
+
 #### Store package
 
 The *Store package*-function was realized as a smartbox. This box can fix the package and recognize when it is filled.  
 This is evaluated with the function *Control and Communicate* and communicated to the environment.
 
-<p align="center"><img src="./docs/images/SmartBox.jpeg" height="450"/></p>
+<p align="center"><img src="./docs/images/SmartBox.jpeg" height="400"/></p>
 
 While the functions *fix package* and *detect fill-level* are application independent, the control and communicate block is specific to the Sortic application and determines the communication, like handshakes, with the vehicle and the surrounding area.
 
@@ -85,11 +94,13 @@ A possible implementation of the Box can be found in [SmartFactory_Box-Sortic](h
 
 The hardware was designed and assembled by Luciano Bettinaglio.
 
+<div style="page-break-after: always;"></div>
+
 #### Transport package
 
 The *Transport package*-function was realized with a smartvehicle. The vehicle recognizes its surroundings, can follow lines, raise and lower the box and communicate with the box and its environment.
 
-<p align="center"><img src="./docs/images/HardwareSV.png" height="300"/></p>
+<p align="center"><img src="./docs/images/HardwareSV.png" height="280"/></p>
 
 The main tasks of the vehicle are picking up and putting down the box and navigating on the game table while communicating with the environment. Navigation requires a drive and recognition of the surroundings. 
 
@@ -109,6 +120,8 @@ The Communicate-Function which is used by *Store-* and *Transport-package* is im
 
 You'll need a WLAN-Connection and a MQTT-Broker. How to set this up is explained in [Setup](#setup).
 
+<div style="page-break-after: always;"></div>
+
 ### Project structure
 
 In order to guarantee re-usability of the code and clean interfaces, the following project structure was chosen:
@@ -124,6 +137,8 @@ The associated  Repositories are:
   [SmartFactory_Vehicle-Basis](https://github.com/LMazzole/SmartFactory_Vehicle-Basis)  
   [SmartFactory_MQTTCommunication](https://github.com/LMazzole/SmartFactory_MQTTCommunication)  
 
+<div style="page-break-after: always;"></div>
+
 ## Communication via MQTT
 
 In the Sortic scenario there are four different communication partners: Sortic, SmartBox, SmartVehicle and Transfer.
@@ -137,6 +152,7 @@ The following scalable Topic-Tree is used for the communication:
 Each SmartBox and SmartVehicle continuously publishes its current position and its desired target position. This way, the vehicles can reserve their target position and conflicts with double occupancy are avoided.
 
 The SmartBox and the SmartVehicle are each only registered in their currently relevant topics depending on their position and state.
+
 
 ### Loading and Unloading 
 
@@ -154,6 +170,8 @@ If the SmartBox is in the right state, it listens to *Sortic/Handover*. If a Mes
 
 <p align="center"> <img src="./mermaid/SorticToSB-detailed.svg" height="400"/> </p>
 
+<div style="page-break-after: always;"></div>
+
 ### SmartBox - SmartVehicle
 
 A 4-way handshake is used for a proper connection between the SmartVehicle and SmartBox.
@@ -169,6 +187,8 @@ If a participant does not respond within a certain period of time the handshake 
 There is no direct communication between the vehicles. Communication is rather based on the absence of messages. For example:
 
 A SmartVehicle that enters the Gateway will constantly publish to *Sortic/Gateway* or *Transfer/Gateway* and thus block it. New arriving vehicles will listen if the gateway is free. If so, they will try to block the Gateway themselves and listen for a short time to if it is the only one publishing. If so, it will enter the Gateway if not it waits a random time (somewhat based on [Aloha](<https://en.wikipedia.org/wiki/ALOHAnet#Slotted_ALOHA>)) and tries to block the Gateway again until it succeeds.
+
+<div style="page-break-after: always;"></div>
 
 ### SmartVehicle - Transfer
 
@@ -187,6 +207,8 @@ If the SmartVehicle is in the right state, it listens to *Sortic/Handover* it li
 Low line numbers are are prioritized due to the shorter travel distances of Sortic.
 
 Afterwards it listens for a short time to see if it is the only vehicle with this destination. If so, it drives off, if not, the process starts again.
+
+<div style="page-break-after: always;"></div>
 
 ### TODO's
 
@@ -209,13 +231,14 @@ Under *Sortic* and *Transfer* there is the possibility to select the cargo as we
 <p align="center"> <img src="./docs/images/Gui.png" height="300"/> </p>  
 
 
-
 [Created with help from [jufritsche](<https://github.com/jufritsche>) ]
 
 
 ### TODO's
 - [ ] add possibility to send error, reset and resume to every box and vehicle individually
 - [ ] improve the GUI so that it does not need a known vehicle or box name and thus becomes scalable.
+
+<div style="page-break-after: always;"></div>
 
 # The SmartFactory Project
 
@@ -243,7 +266,7 @@ In order to achieve this, the following adjustments are necessary:
 - [ ] Add an general communication class which allows you to chose a protocol.
 - [ ] Add an basis class for the smart box.
 
-
+<div style="page-break-after: always;"></div>
 
 # Setup
 
@@ -341,6 +364,9 @@ pi@raspberry:~ $ npm i node-red-dashboard
 ```
 
 [Source: [node-red-dashboard](<https://flows.nodered.org/node/node-red-dashboard>)]
+
+<div style="page-break-after: always;"></div>
+
 
 ## VSCode PlatformIO
 The used  IDE is [VSCode](https://code.visualstudio.com/) with the [PlatformIO](https://platformio.org/platformio-ide)-Extension.
