@@ -45,7 +45,7 @@ This is a mechatronic product with the following features:
  The components recognize which configuration is present and adapt themselves.  
 * It is IoT capable: It has an integrated web server for communication with the Internet.
 
-*[todo add images]*
+**[todo add images]**
 
 [Source: SmartFactory ,Translated with [DeepL](www.DeepL.com/Translator)]
 
@@ -108,6 +108,21 @@ The hardware was designed and assembled by Glenn Patrick Huber and Robert Paly.
 The Communicate-Function which is used by *Store-* and *Transport-package* is implemented as the [SmartFactory_MQTTCommunication](https://github.com/LMazzole/SmartFactory_MQTTCommunication).  It provides basic communication functionalities and defines the message-format.
 
 You'll need a WLAN-Connection and a MQTT-Broker. How to set this up is explained in [Setup](#setup).
+
+### Project structure
+
+In order to guarantee re-usability of the code and clean interfaces, the following project structure was chosen:
+
+
+
+<p align="center"><img src="./docs/images/RepoOverview.png" height="300"/></p>
+
+The associated  Repositories are:  
+  [SmartFactory-Sortic](https://github.com/LMazzole/SmartFactory-Sortic)  
+  [SmartFactory_Box-Sortic](https://github.com/LMazzole/SmartFactory_Box-Sortic)  
+  [SmartFactory_Vehicle-Sortic](https://github.com/LMazzole/SmartFactory_Vehicle-Sortic)  
+  [SmartFactory_Vehicle-Basis](https://github.com/LMazzole/SmartFactory_Vehicle-Basis)  
+  [SmartFactory_MQTTCommunication](https://github.com/LMazzole/SmartFactory_MQTTCommunication)  
 
 ## Communication via MQTT
 
@@ -209,7 +224,7 @@ Using this modular approach, you're able to build a flexible and scalable SmartF
 
 These modules provides only the basic functions and can (and need to) be customized.
 
-The SmartFactroy-Project provides an interface for a  smart vehicle, a smart box and communication via MQTT.
+The SmartFactroy-Project provides an interface for a  SmartVehicle, a SmartBox and communication via MQTT.
 
 - Vehicle - [SmartFactory_Vehicle-Basis](https://github.com/LMazzole/SmartFactory_Vehicle-Basis)  
 - Communication - [SmartFactory_MQTTCommunication](https://github.com/LMazzole/SmartFactory_MQTTCommunication)
@@ -217,20 +232,24 @@ The SmartFactroy-Project provides an interface for a  smart vehicle, a smart box
 
 ## Outlook
 
-There are still some things left to do and to optimize:
+There are still some things left to do and to optimize. The desired structure of the project is:
+
+<p align="center"><img src="./docs/images/RepoOverviewSoll.png" height="300"/></p>
+
+In order to achieve this, the following adjustments are necessary:
 
 - [ ] Add an general communication class which allows you to chose a protocol.
-- [ ] Add an basic class for the smart box.
+- [ ] Add an basis class for the smart box.
 
 
 
-## Setup
+# Setup
 
 To display the GUI you need a Node-Red-Server. The MQTT-Broker also needs a server. For this purpose a Raspberry Pi is used.
 
-### Raspberry Pi
+## Raspberry Pi
 
-[Raspberry Pi 3 Model B+ with 7" Touch Screen](<https://www.digitec.ch/de/s1/product/raspberry-pi-touch-kit-armv8-entwicklungsboard-kit-9121186>) needs some additional settings to function smoothly:
+[Raspberry Pi 3 Model B+ with 7" Touch Screen](<https://www.digitec.ch/de/s1/product/raspberry-pi-touch-kit-armv8-entwicklungsboard-kit-9121186>) with [Raspbian](<https://www.raspberrypi.org/downloads/raspbian/>) needs some additional settings to function smoothly:
 
 It is possible that the LCD is 180 degrees upside down. In this case it is necessary to extend the config file with the following lines:
 
@@ -248,7 +267,7 @@ It's also very convenient to operate the raspberry via the Computer. [You can us
 
 If you need more information here's an [Introduction to the Raspberry Pi](<https://randomnerdtutorials.com/getting-started-with-raspberry-pi/>).
 
-#### MQTT - Mosquitto
+### MQTT - Mosquitto
 
 For the communication via MQTT to work you need a broker. Here [Eclipse Mosquitto](<https://mosquitto.org/>) is used.
 
@@ -281,7 +300,7 @@ pi@raspberry:~ $ hostname -I
 
 [Source: [How to Install Mosquitto Broker on Raspberry Pi](<https://randomnerdtutorials.com/how-to-install-mosquitto-broker-on-raspberry-pi/>)]
 
-#### Node-RED
+### Node-RED
 
  To install [Node-RED](<https://nodered.org/>) on the Raspbrery Pi you need to enter the following commands:
 
@@ -305,13 +324,13 @@ pi@raspberry:~ $ node-red-start
 pi@raspberry:~ $ node-red-stop
 ```
 
-Once Node-RED is [running](https://nodered.org/docs/getting-started/running), point a local browser at http://localhost:1880. You can always use a browser from another machine if you know the ip address or name of the Node-RED instance - http://{Node-RED-machine-ip-address}:1880
+Once Node-RED is [running](https://nodered.org/docs/getting-started/running), point a local browser at http://localhost:1880. You can always use a browser from another machine if you know the ip address or name of the Node-RED instance - `http://{Node-RED-machine-ip-address}:1880`
 
 More Info on how to create a flow can be found in the [Node-RED-Documentation](<https://nodered.org/docs/getting-started/first-flow>).
 
 [Source: [Respberry Toolkit](<https://www.npmjs.com/package/raspberry>),[Node-Red Running on Raspberry Pi](<https://nodered.org/docs/hardware/raspberrypi>)]
 
-#### Node-Red Dashboard
+### Node-Red Dashboard
 
 To install the stable version use the `Menu - Manage palette` option on the top right side on the node-red site and search for `node-red-dashboard`, or run the following command in your Node-RED user directory (typically `~/.node-red`):
 
