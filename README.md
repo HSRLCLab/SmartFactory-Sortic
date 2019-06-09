@@ -342,6 +342,20 @@ pi@raspberry:~ $ npm i node-red-dashboard
 
 [Source: [node-red-dashboard](<https://flows.nodered.org/node/node-red-dashboard>)]
 
+## VSCode PlatformIO
+The used  IDE is [VSCode](https://code.visualstudio.com/) with the [PlatformIO](https://platformio.org/platformio-ide)-Extension.
+
+## Documentation
+
+### Doxygen
+Doxygen is used for the documentation of the source-code.  
+An intorduction to *Doxygen* and how to install it can be found in the [ArdFSM-Repo](https://github.com/LMazzole/ArdFSM#documentation-with-doxygen).  
+
+### Markdown
+[Typora](https://typora.io/) was used for markdown documentation. The diagrams were created with [mermaid](https://mermaidjs.github.io/) or [Visio](https://products.office.com/de-ch/visio/flowchart-software).  
+To support the translation [deepL](https://www.deepl.com/translator) was used.
+
+
 # Contributors
 
 - [Luca Mazzoleni](https://github.com/LMazzole)
