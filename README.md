@@ -1,15 +1,45 @@
 # SmartFactory-Sortic
 
-SmartFactroy-Sortic Reposiroty provides an overview of the SmartFactroy project and its implementation into the Sortic usecase.
+SmartFactroy-Sortic repository provides an overview of the SmartFactroy project and its implementation into the Sortic usecase.
 
 <!-- add Pagebreak: <div style="page-break-after: always;"></div> -->
 
-## Table of Content
+## Table of contentd
 
 <!-- TOC Generated with https://magnetikonline.github.io/markdown-toc-generate/ -->
 
-[TOC]
-
+- [Usecase Sortic](#usecase-sortic)
+	- [Sorting-system](#sorting-system)
+	- [Package distribution system](#package-distribution-system)
+		- [Functional structure diagram  (FSD)](#functional-structure-diagram--fsd)
+			- [Store package](#store-package)
+			- [Transport package](#transport-package)
+			- [Communicate](#communicate)
+		- [Project structure](#project-structure)
+	- [Communication via MQTT](#communication-via-mqtt)
+		- [Loading and Unloading](#loading-and-unloading)
+		- [Sortic - SmartBox](#sortic---smartbox)
+		- [SmartBox - SmartVehicle](#smartbox---smartvehicle)
+		- [SmartVehicle - SmartVehicle](#smartvehicle---smartvehicle)
+		- [SmartVehicle - Transfer](#smartvehicle---transfer)
+		- [SmartVehicle - Sortic](#smartvehicle---sortic)
+	- [Graphical user interface (GUI)](#graphical-user-interface-gui)
+	- [TODO's](#todos)
+		- [Communication](#communication)
+		- [GUI](#gui)
+- [The SmartFactory project](#the-smartfactory-project)
+	- [Outlook](#outlook)
+- [Setup](#setup)
+	- [Raspberry Pi](#raspberry-pi)
+		- [MQTT - Mosquitto](#mqtt---mosquitto)
+		- [Node-RED](#node-red)
+		- [Node-Red Dashboard](#node-red-dashboard)
+	- [VSCode PlatformIO](#vscode-platformio)
+	- [Documentation](#documentation)
+		- [Doxygen](#doxygen)
+		- [Markdown](#markdown)
+- [Contributors](#contributors)
+- [License](#license)
 
 <div style="page-break-after: always;"></div>
 
@@ -79,7 +109,7 @@ As you can see in the functional structure the main function divides in two subf
 
 #### Store package
 
-The *Store package*-function was realized as a smartbox. This box can fix the package and recognize when it is filled.  
+The *Store package*-function was realized as a SmartBox. This box can fix the package and recognize when it is filled.  
 This is evaluated with the function *Control and Communicate* and communicated to the environment.
 
 <p align="center"><img src="./docs/images/SmartBox.jpeg" height="400"/></p>
@@ -143,7 +173,7 @@ The associated  Repositories are:
 
 In the Sortic scenario there are four different communication partners: Sortic, SmartBox, SmartVehicle and Transfer.
 
-The following scalable Topic-Tree is used for the communication:
+The following scalable topic-tree is used for the communication:
 
 <p align="center"> <img src="./docs/images/MQTTTopics.png" height="700"/> </p>
 
@@ -166,7 +196,7 @@ The sequence diagram below shows a simplified communication process of the parti
 
 **Sortic tells which cargo it drops on which line.**
 
-If the SmartBox is in the right state, it listens to *Sortic/Handover*. If a Message with the same line as the SmartBox and Cargo-Information is received, the SmartBox updates its cargo.
+If the SmartBox is in the right state, it listens to *Sortic/Handover*. If a Message with the same line as the SmartBox and cargo-information is received, the SmartBox updates its cargo.
 
 <p align="center"> <img src="./mermaid/SorticToSB-detailed.svg" height="400"/> </p>
 
@@ -210,13 +240,7 @@ Afterwards it listens for a short time to see if it is the only vehicle with thi
 
 <div style="page-break-after: always;"></div>
 
-### TODO's
-
-- [ ] Use a separate topic for each line in Gateway. This minimizes the number of messages to be evaluated and allows an easy upscaling of the plant with multiple lines.
-- [ ] Better balance the message-payload between SmartVehicle and SmartBox to relieve the traffic on the SmartVehicle.
-- [ ] Minimize the communication overhead and optimize the run time. Retain message may be a solution.
-
-## GUI
+## Graphical user interface (GUI)
 
 The communication and status of the vehicles and boxes is displayed in a GUI. 
 
@@ -233,16 +257,25 @@ Under *Sortic* and *Transfer* there is the possibility to select the cargo as we
 
 [Created with help from [jufritsche](<https://github.com/jufritsche>) ]
 
+## TODO's
 
-### TODO's
-- [ ] add possibility to send error, reset and resume to every box and vehicle individually
-- [ ] improve the GUI so that it does not need a known vehicle or box name and thus becomes scalable.
+### Communication
+
+- [ ] Use a separate topic for each line in Gateway. This minimizes the number of messages to be evaluated and allows an easy upscaling of the plant with multiple lines.
+- [ ] Better balance the message-payload between SmartVehicle and SmartBox to relieve the traffic on the SmartVehicle.
+- [ ] Minimize the communication overhead and optimize the run time. Retain message may be a solution.
+- [ ] Add a Handshake between SmartBox and Sortic and SmartVehicle and Transfer
+
+
+### GUI
+- [ ] Add possibility to send error, reset and resume to every box and vehicle individually
+- [ ] Improve the GUI so that it does not need a known vehicle or box name and thus becomes scalable.
 
 <div style="page-break-after: always;"></div>
 
-# The SmartFactory Project
+# The SmartFactory project
 
-The aim of the SmartFactory Project is to provide a number of different software modules which can be used as a basis to build a smart factory[.](<https://avatars0.githubusercontent.com/u/51330787?s=400&v=4>)  
+The aim of the SmartFactory project is to provide a number of different software modules which can be used as a basis to build a smart factory[.](<https://avatars0.githubusercontent.com/u/51330787?s=400&v=4>)  
 Using this modular approach, you're able to build a flexible and scalable SmartFactory tailored for your needs. Thanks to clearly defined and documented interfaces, the modules are interchangeable. This not only simplifies  maintenance but also expandability and reusability.
 
 These modules provides only the basic functions and can (and need to) be customized.
@@ -270,7 +303,7 @@ In order to achieve this, the following adjustments are necessary:
 
 # Setup
 
-To display the GUI you need a Node-Red-Server. The MQTT-Broker also needs a server. For this purpose a Raspberry Pi is used.
+To display the GUI you need a Node-Red-server. The MQTT-Broker also needs a server. For this purpose a Raspberry Pi is used.
 
 ## Raspberry Pi
 
