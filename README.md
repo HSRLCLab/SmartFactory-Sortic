@@ -80,8 +80,6 @@ This is a mechatronic product with the following features:
  The components recognize what configuration is present and adapt themselves.  
 * It is IoT capable: It has an integrated web server for communication with the Internet.
 
-**[todo add picture of sortic, vehicle and box]**
-
 [Source: SmartFactory ,Translated with [DeepL](www.DeepL.com/Translator)]
 
 ## Package distribution system
@@ -150,15 +148,13 @@ The Communicate-Function which is used by *Store-* and *Transport-package* is im
 
 You will need a WLAN-Connection and a MQTT-Broker. How to set this up is explained in [Setup](#setup).
 
-<div style="page-break-after: always;"></div>
-
 ### Project structure
 
 In order to guarantee reusability of the code and clean interfaces, the following project structure was chosen:
 
 
 
-<p align="center"><img src="./docs/images/RepoOverview.png" height="300"/></p>
+<p align="center"><img src="./docs/images/RepoOverview.png" height="280"/></p>
 
 The associated  Repositories are:  
   [SmartFactory-Sortic](https://github.com/LMazzole/SmartFactory-Sortic)  
@@ -208,9 +204,7 @@ A 4-way handshake is used for a proper connection between the SmartVehicle and S
 
 If a participant does not respond within a certain period of time the handshake will be aborted.
 
-<p align="center"> <img src="./mermaid/Handshake-detailed.svg" height="700"/> </p>
-
-
+<p align="center"> <img src="./mermaid/Handshake-detailed.svg" height="500"/> </p>
 
 ### SmartVehicle - SmartVehicle
 
@@ -228,7 +222,7 @@ Transfer continuously publishes which cargo it needs at which handover point.
 
 If the SmartVehicle is in the right state, it listens to *Transfer/Handover* and compares the received messages  with its load. At the same time it also listens to which lines are already occupied. Low line numbers are are prioritized. If the SmartVehicle finds a free line that matches its cargo, it reserves it. Then it listens for a short time to see if it is the only vehicle with this destination. If so, it drives off, if not, the process starts again.
 
-<p align="center"> <img src="./mermaid/TransferToSV-detailed.svg" height="600"/> </p>
+<p align="center"> <img src="./mermaid/TransferToSV-detailed.svg" height="500"/> </p>
 
 ### SmartVehicle - Sortic
 
@@ -270,6 +264,7 @@ Under *Sortic* and *Transfer* there is the possibility to select the cargo as we
 ### GUI
 - [ ] Add possibility to send error, reset and resume to every box and vehicle individually
 - [ ] Improve the GUI so that it does not need a known vehicle or box name and thus becomes scalable.
+- [ ] Improve the adding of new vehicles and boxes so that this is possible via the GUI
 
 <div style="page-break-after: always;"></div>
 
