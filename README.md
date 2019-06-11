@@ -56,7 +56,7 @@ These are sold according to the business model "machine as a service". The custo
 * Defined response times
 * Service for upgrades and conversion of the plant with transparent costs and times
 
-The second company - DropKick - is a user of the Sortic system and uses it to complete its business model. The company DropKick is a delivery service startup, which is strongly digitalized. 
+The second company - DropKick - is a user of the Sortic system and uses it to complete its business model. The company DropKick is a strongly digitalized delivery service startup. 
 
 <p align="center"><img src="./docs/images/plm.png" height="350"/>  </p>
 
@@ -70,14 +70,14 @@ The interaction of the two companies is the basis to explain and explore a digit
 
 ## Sorting-system
 
-The [functional model of the sorting-machine](https://github.com/HSRLCLab/sortic150) was developed as a "pick and place" machine based on Lego and Arduino (electrics and software).  
+The [functional model of the sorting-machine](https://github.com/HSRLCLab/sortic150) was developed as a "pick and place" machine based on Lego and Arduino (electronics and software).  
 
 This is a mechatronic product with the following features:
 
 * The machine can recognize parts and transports them to different locations depending on their property/ID.
 * It is a modular product, which is distributed/produced according to an "Assemble to Order" strategy.  
 * It is self-configurable: components have an RFID chip, reader and software.
- The components recognize which configuration is present and adapt themselves.  
+ The components recognize what configuration is present and adapt themselves.  
 * It is IoT capable: It has an integrated web server for communication with the Internet.
 
 **[todo add picture of sortic, vehicle and box]**
@@ -148,13 +148,13 @@ The hardware was designed and assembled by Glenn Patrick Huber and Robert Paly.
 
 The Communicate-Function which is used by *Store-* and *Transport-package* is implemented as the [SmartFactory_MQTTCommunication](https://github.com/LMazzole/SmartFactory_MQTTCommunication).  It provides basic communication functionalities and defines the message-format.
 
-You'll need a WLAN-Connection and a MQTT-Broker. How to set this up is explained in [Setup](#setup).
+You will need a WLAN-Connection and a MQTT-Broker. How to set this up is explained in [Setup](#setup).
 
 <div style="page-break-after: always;"></div>
 
 ### Project structure
 
-In order to guarantee re-usability of the code and clean interfaces, the following project structure was chosen:
+In order to guarantee reusability of the code and clean interfaces, the following project structure was chosen:
 
 
 
@@ -196,7 +196,7 @@ The sequence diagram below shows a simplified communication process of the parti
 
 **Sortic tells which cargo it drops on which line.**
 
-If the SmartBox is in the right state, it listens to *Sortic/Handover*. If a Message with the same line as the SmartBox and cargo-information is received, the SmartBox updates its cargo.
+If the SmartBox is in the right state, it listens to *Sortic/Handover*. If a message with the same line as the SmartBox and cargo-information is received, the SmartBox updates its cargo.
 
 <p align="center"> <img src="./mermaid/SorticToSB-detailed.svg" height="400"/> </p>
 
@@ -214,7 +214,7 @@ If a participant does not respond within a certain period of time the handshake 
 
 ### SmartVehicle - SmartVehicle
 
-There is no direct communication between the vehicles. Communication is rather based on the absence of messages. For example:
+There is no direct communication between the vehicles; communication is rather based on the absence of messages. For example:
 
 A SmartVehicle that enters the Gateway will constantly publish to *Sortic/Gateway* or *Transfer/Gateway* and thus block it. New arriving vehicles will listen if the gateway is free. If so, they will try to block the Gateway themselves and listen for a short time to if it is the only one publishing. If so, it will enter the Gateway if not it waits a random time (somewhat based on [Aloha](<https://en.wikipedia.org/wiki/ALOHAnet#Slotted_ALOHA>)) and tries to block the Gateway again until it succeeds.
 
@@ -244,11 +244,11 @@ Afterwards it listens for a short time to see if it is the only vehicle with thi
 
 The communication and status of the vehicles and boxes is displayed in a GUI. 
 
-Here the user has the possibility to control the vehicles and boxes under the tab *Control*. He can send the commands *Error, Reset* and *Resume* to the subscribers and thus influence their process.
+Here, the user has the possibility to control the vehicles and boxes under the tab *Control*. He can send the commands *Error, Reset* and *Resume* to the subscribers and thus influence their process.
 
  The tab *Status* shows the current status of the active vehicles and boxes.
 
-Under *Sortic* and *Transfer* there is the possibility to select the cargo as well as to block the corresponding Gateway. Furthermore the current occupation of the line is shown.
+Under *Sortic* and *Transfer* there is the possibility to select the cargo as well as to block the corresponding Gateway. Furthermore, the current occupation of the line is shown.
 
 
 
@@ -286,7 +286,7 @@ The SmartFactroy-Project provides an interface for a  SmartVehicle, a SmartBox a
 - Communication - [SmartFactory_MQTTCommunication](https://github.com/LMazzole/SmartFactory_MQTTCommunication)
 - (Box -  [SmartFactory_Box-Sortic](https://github.com/LMazzole/SmartFactory_Box-Sortic) )  
 
-If you would like to use one of these moudles, all you need to do is adding the GitHub-Link from the Repository of your choice under *lib_deps* in your platformio.ini File and you're set. All dependencies are downloaded automatically.
+If you would like to use one of these moudles, all you need to do is adding the GitHub-Link from the Repository of your choice under *lib_deps* in your platformio.ini File and you are set. All dependencies are downloaded automatically.
 
 ## Outlook
 
@@ -350,7 +350,7 @@ pi@raspberry:~ $ mosquitto -v
 
 This returns the Mosquitto version that is currently running in your Raspberry Pi. It should be 1.4.X or above.
 
-To use Mosquitto broker later on your projects, you’ll need your Raspberry Pi IP address. To retrieve your Raspberry Pi IP address, type the next command in your Terminal window:
+To use Mosquitto broker later on your projects, you will need your Raspberry Pi IP address. To retrieve your Raspberry Pi IP address, type the next command in your Terminal window:
 
 ```shell
 pi@raspberry:~ $ hostname -I
@@ -382,9 +382,9 @@ pi@raspberry:~ $ node-red-start
 pi@raspberry:~ $ node-red-stop
 ```
 
-Once Node-RED is [running](https://nodered.org/docs/getting-started/running), point a local browser at http://localhost:1880. You can always use a browser from another machine if you know the ip address or name of the Node-RED instance - `http://{Node-RED-machine-ip-address}:1880`
+Once Node-RED is [running](https://nodered.org/docs/getting-started/running), point a local browser at http://localhost:1880. You can always use a browser from another machine if you know the IP address or name of the Node-RED instance - `http://{Node-RED-machine-ip-address}:1880`
 
-More Info on how to create a flow can be found in the [Node-RED-Documentation](<https://nodered.org/docs/getting-started/first-flow>).
+More information on how to create a flow can be found in the [Node-RED-Documentation](<https://nodered.org/docs/getting-started/first-flow>).
 
 [Source: [Respberry Toolkit](<https://www.npmjs.com/package/raspberry>),[Node-Red Running on Raspberry Pi](<https://nodered.org/docs/hardware/raspberrypi>)]
 
@@ -408,7 +408,7 @@ The used  IDE is [VSCode](https://code.visualstudio.com/) with the [PlatformIO](
 
 ### Doxygen
 Doxygen is used for the documentation of the source-code.  
-An intorduction to *Doxygen* and how to install it can be found in the [ArdFSM-Repo](https://github.com/LMazzole/ArdFSM#documentation-with-doxygen).  
+An intoduction to *Doxygen* and how to install it can be found in the [ArdFSM-Repo](https://github.com/LMazzole/ArdFSM#documentation-with-doxygen).  
 
 ### Markdown
 [Typora](https://typora.io/) was used for markdown documentation. The diagrams were created with [mermaid](https://mermaidjs.github.io/) or [Visio](https://products.office.com/de-ch/visio/flowchart-software).  
