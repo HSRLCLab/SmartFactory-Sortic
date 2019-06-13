@@ -24,9 +24,11 @@ SmartFactroy-Sortic repository provides an overview of the SmartFactroy project 
 		- [SmartVehicle - Transfer](#smartvehicle---transfer)
 		- [SmartVehicle - Sortic](#smartvehicle---sortic)
 	- [Graphical user interface (GUI)](#graphical-user-interface-gui)
+	- [Strategy](#strategy)
 	- [TODO's](#todos)
 		- [Communication](#communication)
 		- [GUI](#gui)
+		- [Strategy](#strategy-1)
 - [The SmartFactory project](#the-smartfactory-project)
 	- [Outlook](#outlook)
 - [Setup](#setup)
@@ -36,10 +38,9 @@ SmartFactroy-Sortic repository provides an overview of the SmartFactroy project 
 		- [Node-Red Dashboard](#node-red-dashboard)
 	- [VSCode PlatformIO](#vscode-platformio)
 	- [Documentation](#documentation)
-		- [Doxygen](#doxygen)
-		- [Markdown](#markdown)
 - [Contributors](#contributors)
 - [License](#license)
+
 
 <div style="page-break-after: always;"></div>
 
@@ -86,12 +87,16 @@ This is a mechatronic product with the following features:
 
 The Sortic plant has been extended by one new stage. It now has an autonomous package distribution system which takes over the further processing of the packages from the Sortic plant to the transfer station.
 
-<p align="center"><img src="./docs/images/Gametable.png" height="350"/></p>
+<p align="center"><img src="./docs/images/OverviewHW.png" height="350"/></p>
+
+
 
 This happens as follows: the sorting system fills smart boxes (left side). They recognize their fill level and communicate it with smart vehicles which bring the boxes to their target location (right side). 
 
 By using a modular approach, the package distribution system is easily scalable and very flexible.  
 How this system was developed will be discussed in more detail.
+
+<!--<p align="center"><img src="./docs/images/Gametable.png" height="350"/></p>--->
 
 <div style="page-break-after: always;"></div>
 
@@ -220,7 +225,7 @@ A SmartVehicle that enters the Gateway will constantly publish to *Sortic/Gatewa
 
 Transfer continuously publishes which cargo it needs at which handover point. 
 
-If the SmartVehicle is in the right state, it listens to *Transfer/Handover* and compares the received messages  with its load. At the same time it also listens to which lines are already occupied. Low line numbers are are prioritized. If the SmartVehicle finds a free line that matches its cargo, it reserves it. Then it listens for a short time to see if it is the only vehicle with this destination. If so, it drives off, if not, the process starts again.
+If the SmartVehicle is in the right state, it listens to *Transfer/Handover* and compares the received messages  with its load. At the same time it also listens to which lines are already occupied. Low line numbers are prioritized. If the SmartVehicle finds a free line that matches its cargo, it reserves it. Then it listens for a short time to see if it is the only vehicle with this destination. If so, it drives off, if not, the process starts again.
 
 <p align="center"> <img src="./mermaid/TransferToSV-detailed.svg" height="500"/> </p>
 
@@ -228,7 +233,7 @@ If the SmartVehicle is in the right state, it listens to *Transfer/Handover* and
 
 If the SmartVehicle is in the right state, it listens to *Sortic/Handover* it listens if there are free lines at Sortic.
 
-Low line numbers are are prioritized due to the shorter travel distances of Sortic.
+Low line numbers are prioritized due to the shorter travel distances of Sortic.
 
 Afterwards it listens for a short time to see if it is the only vehicle with this destination. If so, it drives off, if not, the process starts again.
 
@@ -251,7 +256,15 @@ Under *Sortic* and *Transfer* there is the possibility to select the cargo as we
 
 [Created with help from [jufritsche](<https://github.com/jufritsche>) ]
 
+## Strategy
+
+Once the vehicle has found a suitable unloading point for the box, it blocks the entire line to avoid collisions with other vehicle. Empty runs from Sortic to Transfer or vice versa are not possible. Lines with low numbers are preferred for the unloading points.
+
+<div style="page-break-after: always;">
+
 ## TODO's
+
+- [ ] Change the Microcontroller to something like a [ESP32](<https://learn.adafruit.com/adafruit-huzzah32-esp32-feather/overview>). Due to the dual core, a better division between communication and vehicle control is possible.
 
 ### Communication
 
@@ -265,6 +278,10 @@ Under *Sortic* and *Transfer* there is the possibility to select the cargo as we
 - [ ] Add possibility to send error, reset and resume to every box and vehicle individually
 - [ ] Improve the GUI so that it does not need a known vehicle or box name and thus becomes scalable.
 - [ ] Improve the adding of new vehicles and boxes so that this is possible via the GUI
+
+### Strategy
+
+- [ ] A complete overhaul of the strategy is necessary to enable a more efficient process. With the help of sonar and vision different scenarios could be implemented to avoid collisions.
 
 <div style="page-break-after: always;"></div>
 
@@ -324,7 +341,13 @@ If you need more information here's an [Introduction to the Raspberry Pi](<https
 
 For the communication via MQTT to work you need a broker. Here [Eclipse Mosquitto](<https://mosquitto.org/>) is used.
 
-To install Mosquitto on the Raspberry Pi you can use [these commands](:
+<p align="center"><img src="./docs/images/mqtt_broker.png" height="200"/></p>
+
+<p align="center"><small> Source: <a href="https://randomnerdtutorials.com/how-to-install-mosquitto-broker-on-raspberry-pi/">randomnerdtutorials</a></small></p> 
+
+
+
+To install Mosquitto on the Raspberry Pi you can use [these commands](<https://randomnerdtutorials.com/how-to-install-mosquitto-broker-on-raspberry-pi/>):
 
 ```shell
 pi@raspberry:~ $ sudo apt update
@@ -355,6 +378,9 @@ pi@raspberry:~ $ hostname -I
 
 ### Node-RED
 
+Node-RED provides a browser-based flow editor that makes it easy to wire together flows using the wide range of nodes in the palette. Flows can be then deployed to the runtime in a single-click.
+[Source: [Node-RED](<https://nodered.org/>)]
+
  To install [Node-RED](<https://nodered.org/>) on the Raspbrery Pi you need to enter the following commands:
 
 ```shell
@@ -383,6 +409,8 @@ More information on how to create a flow can be found in the [Node-RED-Documenta
 
 [Source: [Respberry Toolkit](<https://www.npmjs.com/package/raspberry>),[Node-Red Running on Raspberry Pi](<https://nodered.org/docs/hardware/raspberrypi>)]
 
+<div style="page-break-after: always;"></div>
+
 ### Node-Red Dashboard
 
 To install the stable version use the `Menu - Manage palette` option on the top right side on the node-red site and search for `node-red-dashboard`, or run the following command in your Node-RED user directory (typically `~/.node-red`):
@@ -393,7 +421,6 @@ pi@raspberry:~ $ npm i node-red-dashboard
 
 [Source: [node-red-dashboard](<https://flows.nodered.org/node/node-red-dashboard>)]
 
-<div style="page-break-after: always;"></div>
 
 
 ## VSCode PlatformIO
