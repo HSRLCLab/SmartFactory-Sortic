@@ -4,7 +4,7 @@ SmartFactroy-Sortic repository provides an overview of the SmartFactroy project 
 
 <!-- add Pagebreak: <div style="page-break-after: always;"></div> -->
 
-## Table of contentd
+## Table of contents
 
 <!-- TOC Generated with https://magnetikonline.github.io/markdown-toc-generate/ -->
 
